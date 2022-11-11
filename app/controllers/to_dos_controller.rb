@@ -1,6 +1,6 @@
 class ToDosController < ApplicationController
   def index
-    matching_to_dos = ToDo.all
+    matching_to_dos = ToDo.where({:user_id => session.fetch(:user_id)})
 
     @list_of_to_dos = matching_to_dos.order({ :created_at => :desc })
 
@@ -20,6 +20,8 @@ class ToDosController < ApplicationController
   def create
     the_to_do = ToDo.new
     the_to_do.content = params.fetch("query_content")
+    the_to_do.user_id = @current_user.id
+    the_to_do.status = params.fetch("query_status")
 
     if the_to_do.valid?
       the_to_do.save
@@ -32,15 +34,14 @@ class ToDosController < ApplicationController
   def update
     the_id = params.fetch("path_id")
     the_to_do = ToDo.where({ :id => the_id }).at(0)
-
-    the_to_do.user_id = @current_user
+    the_to_do.user_id = @current_user.id
     the_to_do.status = params.fetch("query_status")
 
     if the_to_do.valid?
       the_to_do.save
-      redirect_to("/to_dos/#{the_to_do.id}", { :notice => "To do updated successfully."} )
+      redirect_to("/", { :notice => "To do updated successfully."} )
     else
-      redirect_to("/to_dos/#{the_to_do.id}", { :alert => the_to_do.errors.full_messages.to_sentence })
+      redirect_to("/", { :alert => the_to_do.errors.full_messages.to_sentence })
     end
   end
 

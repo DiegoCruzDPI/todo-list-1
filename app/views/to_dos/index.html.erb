@@ -13,6 +13,7 @@
       Add a new todo
     </h2>
 
+
     <form action="/insert_to_do" method="post">
       <div>
         <label for="content_box">
@@ -20,6 +21,7 @@
         </label>
 
         <input id="content_box" name="query_content" rows="3">
+        <input type="hidden" name="query_status" value="next_up">
       </div>
       <button>
         Add to Next Up
@@ -33,17 +35,17 @@
 
   <ul>
     
-      <% @list_of_to_dos.each do |a_todo|  %>
+      <% @list_of_to_dos.where(:status => "next_up").each do |a_todo|  %>
       <li>
         <div><%= a_todo.content %></div>
 
         <small>
-          <%= time_ago_in_words(a_todo.created_at)%>
+        Added  <%= time_ago_in_words(a_todo.created_at)%>
 
           <a href="/delete_to_do/<%= a_todo.id %>">Delete</a>
         </small>
 
-        <form action="/modify_to_do/<%= @list_of_to_dos %>" method="post">
+        <form action="/modify_to_do/<%= a_todo.id %>" method="post">
           <input type="hidden" name="query_status" value="in_progress">
           <button>Move to In Progress</button>
         </form>
@@ -58,6 +60,22 @@
   <h2>In Progress</h2>
 
   <ul>
+  <% @list_of_to_dos.where(:status => "in_progress").each do |a_todo|  %>
+      <li>
+        <div><%= a_todo.content %></div>
+
+        <small>
+         Started <%= time_ago_in_words(a_todo.updated_at)%>
+
+          <a href="/delete_to_do/<%= a_todo.id %>">Delete</a>
+        </small>
+
+        <form action="/modify_to_do/<%= a_todo.id %>" method="post">
+          <input type="hidden" name="query_status" value="done">
+          <button>Move to Done</button>
+        </form>
+      </li>
+      <% end %>
   </ul>
 </div>
 
@@ -66,10 +84,24 @@
   <h2>Done</h2>
 
   <ul>
+  <% @list_of_to_dos.where(:status => "done").each do |a_todo| %>
+    <li>
+      <div><%= a_todo.content %></div>
+      <small>
+      Completed at  <%= time_ago_in_words(a_todo.updated_at)%>
+
+        <a href="delete_to_do/<%= a_todo.id %>">Delete</a>
+      </small>
+
+      <form action="/modify_to_do/<%= a_todo.id %>">
+
+      </form>
+    </li>
+    <% end %>
   </ul>
 </div>
 
   </body>
 </html>
 
-      
+    
