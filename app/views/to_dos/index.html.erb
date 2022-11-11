@@ -17,7 +17,7 @@
     <form action="/insert_to_do" method="post">
       <div>
         <label for="content_box">
-          Descripbe the task:
+          Describe the task:
         </label>
 
         <input id="content_box" name="query_content" rows="3">
@@ -40,7 +40,7 @@
         <div><%= a_todo.content %></div>
 
         <small>
-        Added  <%= time_ago_in_words(a_todo.created_at)%>
+        Added <%= time_ago_in_words(a_todo.created_at)%> ago
 
           <a href="/delete_to_do/<%= a_todo.id %>">Delete</a>
         </small>
@@ -65,7 +65,7 @@
         <div><%= a_todo.content %></div>
 
         <small>
-         Started <%= time_ago_in_words(a_todo.updated_at)%>
+         Started <%= time_ago_in_words(a_todo.updated_at)%> ago
 
           <a href="/delete_to_do/<%= a_todo.id %>">Delete</a>
         </small>
@@ -88,7 +88,7 @@
     <li>
       <div><%= a_todo.content %></div>
       <small>
-      Completed at  <%= time_ago_in_words(a_todo.updated_at)%>
+      Completed at <%=a_todo.updated_at.strftime("%l:%M%P on %d-%b-%Y")%> 
 
         <a href="delete_to_do/<%= a_todo.id %>">Delete</a>
       </small>
