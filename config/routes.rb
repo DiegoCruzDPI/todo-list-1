@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get("/:path_id", { :controller => "to_dos", :action => "index" })
+  get("/", { :controller => "to_dos", :action => "index" })
 
 
 

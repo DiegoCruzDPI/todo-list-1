@@ -23,9 +23,9 @@ class ToDosController < ApplicationController
 
     if the_to_do.valid?
       the_to_do.save
-      redirect_to("/to_dos", { :notice => "To do created successfully." })
+      redirect_to("/", { :notice => "To do created successfully." })
     else
-      redirect_to("/to_dos", { :alert => the_to_do.errors.full_messages.to_sentence })
+      redirect_to("/", { :alert => the_to_do.errors.full_messages.to_sentence })
     end
   end
 
@@ -50,6 +50,6 @@ class ToDosController < ApplicationController
 
     the_to_do.destroy
 
-    redirect_to("/to_dos", { :notice => "To do deleted successfully."} )
+    redirect_to("/", { :notice => "To do deleted successfully."} )
   end
 end
